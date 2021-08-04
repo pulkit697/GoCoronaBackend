@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Comment = require('./Comment');
+const Comment = require('./Comment').schema;
 
 const postSchema = new mongoose.Schema({
     imageUrl: {
@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     comments: {
-        type: Comment,
+        type: [Comment],
         required: true
     }
 });

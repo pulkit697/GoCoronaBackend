@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     result: {
-        type: Numbers,
+        type: Number,
         required: true
     }
 });
