@@ -2,7 +2,7 @@ const Comment = require('../models/Comment');
 const CTScanPost = require('../models/CTScanPost');
 const { uploadFile } = require('../s3')
 
-exports.getAllCtScans = (req, resposne, next) => {
+exports.getAllCtScans = (req, response, next) => {
     console.log('getting all the ct scans');
     CTScanPost.find()
         .then(ctscans => {
@@ -14,7 +14,7 @@ exports.getAllCtScans = (req, resposne, next) => {
 }
 exports.getmyctscans = (req, response, next) => {
     const id = parseInt(req.params.id);
-    console.log("getting ct scans of ${id}");
+    console.log("getting ct scans of ", id);
     CTScanPost.find({ userId: id })
         .then(ctscans => {
             response.status(200).json(ctscans)
@@ -35,7 +35,6 @@ exports.postmyctscan = async (req, res, next) => {
         if (req.file.mimetype.split('/')[0] === 'image') {
             console.log('image uploading');
             const result = await uploadFile(req.file)
-            console.log("result: ", result);
             const imageUrl = result.Location;
             const userId = req.body.userId;
             const timeStamp = req.body.timeStamp;
@@ -67,19 +66,30 @@ exports.postmycomment = (req, res, next) => {
     const result = req.body.result;
     const commentObj = new Comment({ caption: comment, doctorName: doctorName, result: result });
     const id = req.body.postId;
-    const myPost = CTScanPost.findById(id);
-    myPost.comments.push(commentObj);
-    myPost.markModified('comments');
-    myPost.save().then(result => {
-        res.status(200).json({
-            message: 'successfully posted your comment!',
-            content: comment
-        })
-    })
-        .catch(err => {
-            res.status(201).json({
+    CTScanPost.findById(id, function (e, myPost) {
+        if (e) {
+            res.status(401).json({
                 message: 'Error!',
-                content: err
+                content: e
             })
-        })
+        }
+        else {
+            console.log(myPost);
+            console.log(myPost.comments);
+            myPost.comments.push(commentObj);
+            myPost.markModified('comments');
+            myPost.save().then(result => {
+                res.status(200).json({
+                    message: 'successfully posted your comment!',
+                    content: comment
+                })
+            })
+                .catch(err => {
+                    res.status(201).json({
+                        message: 'Error!',
+                        content: err
+                    })
+                })
+        }
+    });
 }

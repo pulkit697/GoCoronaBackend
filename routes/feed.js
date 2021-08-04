@@ -13,4 +13,7 @@ router.get('/getmyctscans/:id', feedController.getmyctscans);
 router.post('/postmyctscan', feedController.postmyctscan)
 
 // POST /feed/postmycomment
-router.post('/postmycomment/:postId', feedController.postmycomment)
+router.post('/postmycomment', feedController.postmycomment)
+
+
+module.exports = router;

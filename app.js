@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 app.use('/feed', routes);
 mongoose.connect('mongodb+srv://root:root@ctscan.dy8cv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
     .then(() => {
+        console.log("listening....");
         app.listen(process.env.PORT || 8080);
     })
     .catch(err => console.log(err))
