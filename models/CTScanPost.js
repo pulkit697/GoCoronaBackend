@@ -7,15 +7,15 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     timeStamp: {
-        type: Number,
+        type: String,
         required: true
     },
     userId: {
-        type: Number,
+        type: String,
         required: true
     },
     MlReport: {
-        type: Number,
+        type: String,
         required: true
     },
     comments: {
