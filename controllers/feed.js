@@ -27,7 +27,7 @@ exports.getmyctscans = (req, response, next) => {
 exports.postmyctscan = async (req, res, next) => {
     // console.log(req);
     if (!req.file) {
-        res.status(422).json({
+        res.status(201).json({
             message: 'no image provided'
         })
     }
@@ -53,7 +53,7 @@ exports.postmyctscan = async (req, res, next) => {
                     })
                 })
         } else {
-            res.status(415).json({
+            res.status(201).json({
                 message: 'invalid content type!'
             })
         }
@@ -68,7 +68,7 @@ exports.postmycomment = (req, res, next) => {
     const id = req.body.postId;
     CTScanPost.findById(id, function (e, myPost) {
         if (e) {
-            res.status(401).json({
+            res.status(201).json({
                 message: 'Error!',
                 content: e
             })
