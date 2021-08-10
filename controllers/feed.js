@@ -53,6 +53,7 @@ exports.postmyctscan = async (req, res, next) => {
                     })
                 })
         } else {
+            console.log(req.file.mimetype);
             res.status(201).json({
                 message: 'invalid content type!'
             })
