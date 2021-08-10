@@ -13,7 +13,7 @@ exports.getAllCtScans = (req, response, next) => {
         })
 }
 exports.getmyctscans = (req, response, next) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     console.log("getting ct scans of ", id);
     CTScanPost.find({ userId: id })
         .then(ctscans => {
