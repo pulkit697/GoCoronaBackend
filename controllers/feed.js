@@ -63,12 +63,13 @@ exports.postmyctscan = async (req, res, next) => {
 }
 
 exports.postmycomment = (req, res, next) => {
+    const id = req.body.id;
+    const time = req.body.time;
     const comment = req.body.comment;
     const doctorName = req.body.doctorName;
     const result = req.body.result;
     const commentObj = new Comment({ caption: comment, doctorName: doctorName, result: result });
-    const id = req.body.postId;
-    CTScanPost.findById(id, function (e, myPost) {
+    CTScanPost.findOne({ userId: id, timeStamp: time }, function (e, myPost) {
         if (e) {
             res.status(201).json({
                 message: 'Error!',
